@@ -1,20 +1,28 @@
-# Игнорировать файлы с такими расширениями
-*.unity3d
-*.prefab
-*.asset
-*.obj
-*.fbx
-*.dae
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
 
-# Игнорировать папки
-/Library
-/Temp
-/Logs
+# IDE specific
+.vs/
+.vscode/
+.idea/
 
-# Игнорировать файлы конфигурации
-*.meta
-*.manifest
-
-# Игнорировать другие файлы
+# OS files
 .DS_Store
 Thumbs.db
+
+# Unity cache
+sysinfo.txt
+
+# Rider
+*.sln
+*.csproj
+*.pidb
+*.user
+*.unityproj
+*.booproj
