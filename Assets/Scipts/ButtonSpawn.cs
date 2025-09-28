@@ -3,23 +3,30 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonSpawn : MonoBehaviour
+namespace DefaultNamespace
 {
-    public EntityType entityType;
-    public SpawnLocatorService _locator;
-    public Button _buttonSpawner;
-    public GameObject _entity;
-
-
-    void Start()
+    public class ButtonSpawn : MonoBehaviour
     {
-        _buttonSpawner.onClick.AddListener(SpawnEntity);
-    }
+        public SpawnLocatorService spawnService; // сюда перетаскиваешь сервис из инспектора
 
+        public void SpawnZubr()
+        {
+            spawnService.SpawnEntity(EntityType.Zubr);
+        }
 
-    private void SpawnEntity()
-    {
-        var newEntity = GameObject.Instantiate(_entity);
-        newEntity.transform.localPosition = _locator.FindLocalPosition(entityType);
+        public void SpawnFox()
+        {
+            spawnService.SpawnEntity(EntityType.Fox);
+        }
+
+        public void SpawnRat()
+        {
+            spawnService.SpawnEntity(EntityType.Rat);
+        }
+
+        public void SpawnRabbit()
+        {
+            spawnService.SpawnEntity(EntityType.Rabbit);
+        }
     }
 }

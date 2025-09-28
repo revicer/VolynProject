@@ -3,35 +3,26 @@ using UnityEngine;
 using System.Collections.Concurrent;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
-public class SpawnLocatorService : MonoBehaviour
+namespace DefaultNamespace
 {
-    
-    public List<Transform> spawnPoint;
-        
-    public Vector3 FindLocalPosition(EntityType entityType)
+    public class SpawnLocatorService : MonoBehaviour
     {
-        if (entityType == EntityType.Zubr)
+        public List<SpawnPoint> spawnPoints;
+
+        public GameObject SpawnEntity(EntityType entityType)
         {
-            var currentSpawnPoint = spawnPoint[Random.Range(0, spawnPoint.Count)];
-            return new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100));
+            var candidates = spawnPoints.Where(sp => sp.entityType == entityType).ToList();
+
+            if (candidates.Count == 0)
+            {
+                Debug.LogWarning($"Нет спавнпоинтов для {entityType}");
+                return null;
+            }
+
+            var chosenPoint = candidates[Random.Range(0, candidates.Count)];
+            return chosenPoint.Spawn();
         }
-        if (entityType == EntityType.Fox)
-        {
-            var currentSpawnPoint = spawnPoint[Random.Range(0, spawnPoint.Count)];
-            return new Vector3(Random.Range(50, 150), 0, Random.Range(100, 150));
-        }
-        if (entityType == EntityType.Rat)
-        {
-            var currentSpawnPoint = spawnPoint[Random.Range(0, spawnPoint.Count)];
-            return new Vector3(Random.Range(0, 300), 0, Random.Range(0, 300));
-        }
-        if (entityType == EntityType.Rabbit)
-        {
-            var currentSpawnPoint = spawnPoint[Random.Range(0, spawnPoint.Count)];
-            return new Vector3(Random.Range(0, 200), 0, Random.Range(0, 200));
-        }
-        return Vector3.zero;    
     }
-    
 }
