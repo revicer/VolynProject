@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2e2251abef6e5e444bd6873d1c832602, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.459843
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e2251abef6e5e444bd6873d1c832602, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.171336
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e2251abef6e5e444bd6873d1c832602, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.826937
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2e2251abef6e5e444bd6873d1c832602, type: 3}
       propertyPath: m_LocalRotation.w
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: eacc0b652965eb046b2cd0030d830d8b, type: 2}
     - target: {fileID: 919132149155446097, guid: 2e2251abef6e5e444bd6873d1c832602, type: 3}
       propertyPath: m_Name
-      value: LowPolyAnimal
+      value: Fox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
