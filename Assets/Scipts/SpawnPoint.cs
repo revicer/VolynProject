@@ -34,7 +34,16 @@ namespace DefaultNamespace
                 return null;
             }
 
-            return GameObject.Instantiate(prefab, GetRandomPosition(), Quaternion.identity);
+            GameObject newEntity = Instantiate(prefab, GetRandomPosition(), Quaternion.identity);
+
+            Animal animal = newEntity.GetComponent<Animal>();
+            if (animal != null)
+            {
+                animal.OnSpawn();
+                animal.Speak();
+            }
+
+            return newEntity;
         }
     }
 }
