@@ -4,13 +4,13 @@ namespace DefaultNamespace
 {
     public class DayNightCycle : MonoBehaviour
     {
-        [Header("Солнце")]
+        [Header("Sun")]
         public Light sun;
 
-        [Header("Скорость дня в градусах в секунду")]
+        [Header("Day speed in degrees per second")]
         public float rotationSpeed = 10f;
 
-        [Header("Интенсивность света")]
+        [Header("Light intensity")]
         public float maxIntensity = 1f;
         public float minIntensity = 0.1f;
 
@@ -18,15 +18,15 @@ namespace DefaultNamespace
         {
             if (sun == null) return;
 
-            // Вращаем солнце вокруг X оси
+            // Rotate the sun around the X axis
             sun.transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime);
 
-            // Меняем интенсивность для рассвета/заката
+            // Change the intensity for sunrise/sunset
             float angle = sun.transform.eulerAngles.x;
             float intensity = Mathf.Clamp01(Mathf.Cos(angle * Mathf.Deg2Rad)) * (maxIntensity - minIntensity) + minIntensity;
             sun.intensity = intensity;
 
-            // Дополнительно можно менять цвет для заката/рассвета
+            // Change the sunset/sunrise color
             sun.color = Color.Lerp(Color.red, Color.white, intensity);
         }
     }

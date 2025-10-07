@@ -6,14 +6,14 @@ namespace DefaultNamespace
     {
         public EntityType entityType;
 
-        [Header("Префаб животного")]
+        [Header("Animal Prefab")]
         public GameObject prefab;
 
-        [Header("Диапазоны смещения по X")]
+        [Header("X Offset Ranges")]
         public float minX = 0f;
         public float maxX = 0f;
 
-        [Header("Диапазоны смещения по Z")]
+        [Header("Z Offset Ranges")]
         public float minZ = 0f;
         public float maxZ = 0f;
 
@@ -25,12 +25,12 @@ namespace DefaultNamespace
             return transform.position + new Vector3(x, 0, z);
         }
 
-        // Метод для спауна существа
+        // Method for spawning a creature
         public GameObject Spawn()
         {
             if (prefab == null)
             {
-                Debug.LogWarning($"Prefab для {entityType} не назначен!");
+                Debug.LogWarning($"Prefab for {entityType} didn't set!");
                 return null;
             }
 

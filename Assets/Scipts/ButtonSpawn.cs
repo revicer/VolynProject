@@ -7,7 +7,7 @@ namespace DefaultNamespace
 {
     public class ButtonSpawn : MonoBehaviour
     {
-        public SpawnLocatorService spawnService; // сюда перетаскиваешь сервис из инспектора
+        public SpawnLocatorService spawnService; 
 
         public void SpawnZubr()
         {

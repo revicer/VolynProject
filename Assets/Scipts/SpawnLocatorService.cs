@@ -17,7 +17,7 @@ namespace DefaultNamespace
 
             if (candidates.Count == 0)
             {
-                Debug.LogWarning($"Нет спавнпоинтов для {entityType}");
+                Debug.LogWarning($"No spawnpoint for {entityType}");
                 return null;
             }
 
