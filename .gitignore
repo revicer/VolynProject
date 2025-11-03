@@ -1,0 +1,25 @@
+# Python virtual environment
+venv/
+
+# ML-Agents training results (generated files)
+Assets/config/results/
+
+# Large 3D Asset Store packages
+Assets/Models/
+Assets/Animal pack deluxe/
+Assets/Realistic Tree/
+Assets/TerrainSampleAssets/
+
+# Standard Unity ignore list
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# Visual Studio / Rider cache
+.vs/
+*.sln
+*.csproj
