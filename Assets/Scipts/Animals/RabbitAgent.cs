@@ -15,15 +15,17 @@ namespace DefaultNamespace
         private NavMeshAgent navAgent;
 
         [Header("Movement")]
-        public float moveSpeed = 5f;
+        public float moveSpeed = 7f;
 
         private Vector3 startPosition; // Для сброса позиции
+        private Animator animator;
 
         // Вызывается ОДИН раз при инициализации
         public override void Initialize()
         {
             stats = GetComponent<AnimalStats>();
             navAgent = GetComponent<NavMeshAgent>();
+            animator = GetComponent<Animator>();
             navAgent.speed = moveSpeed;
             startPosition = transform.position;
         }
@@ -84,7 +86,7 @@ namespace DefaultNamespace
 
             // 1. Маленький отрицательный штраф за существование
             // (Стимулирует делать что-то быстро, а не стоять на месте)
-            AddReward(-0.001f);
+            AddReward(-0.005f);
         }
 
         // РУЧНОЕ УПРАВЛЕНИЕ (Для отладки)
@@ -104,30 +106,48 @@ namespace DefaultNamespace
         // Эта часть остается почти такой же, как в FSM,
         // но мы добавляем Вознаграждения (Rewards)
 
-        void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other) // <-- "other" "живет" ЗДЕСЬ
         {
             if (stats.isDead) return;
 
+            // --- ЭТО НАША НОВАЯ ЛОГИКА ---
             if (other.gameObject.layer == LayerMask.NameToLayer("Food"))
             {
-                // Положительное вознаграждение за еду
-                AddReward(1.0f);
+                // 1. Получаем "спавнер" этого куста
+                ObjectSpawner foodSpawner = other.GetComponent<ObjectSpawner>();
+
+                // 2. "Говорим" ЭТОМУ кусту "переместиться"
+                if (foodSpawner != null)
+                {
+                    foodSpawner.MoveToRandomLocation();
+                }
+
+                // 3. Получаем награду
+                if (animator != null) animator.SetTrigger("Eat"); // "animator" "виден" здесь
+                AddReward(2.0f); // (Используем нашу "усиленную" награду)
                 stats.Eat(30f);
-                // Destroy(other.gameObject); // Можно раскомментировать, если еда одноразовая
             }
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Water"))
             {
-                // Положительное вознаграждение за воду
-                AddReward(1.0f);
+                // 1. Получаем "спавнер" этой воды
+                ObjectSpawner waterSpawner = other.GetComponent<ObjectSpawner>();
+
+                // 2. "Говорим" ЭТОЙ воде "переместиться"
+                if (waterSpawner != null)
+                {
+                    waterSpawner.MoveToRandomLocation();
+                }
+
+                // 3. Получаем награду
+                AddReward(2.0f); // (Используем нашу "усиленную" награду)
                 stats.Drink(40f);
             }
+            // --- КОНЕЦ НОВОЙ ЛОГИКИ ---
 
-            // Мы будем использовать тег "Enemy" для крокодила/волка
             if (other.gameObject.CompareTag("Enemy"))
             {
-                stats.TakeDamage(100f); // Мгновенная смерть от хищника
-                                        // (Die() в AnimalStats сам назначит штраф и закончит эпизод)
+                stats.TakeDamage(100f);
             }
         }
 

@@ -1,6 +1,7 @@
 behaviors:
   RabbitBrain:
     trainer_type: ppo
+    init_path: results/Rabbit_LearnToEat_v3_Fast/RabbitBrain/checkpoint.pt
     hyperparameters:
       batch_size: 128
       buffer_size: 2048

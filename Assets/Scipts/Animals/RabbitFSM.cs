@@ -181,6 +181,32 @@ public class RabbitFSM : MonoBehaviour
         }
     }
 
+    public void GetEatenAndRespawn()
+    {
+        Debug.Log("Rabbit was eaten, respawning...");
+
+        // 1. Reset stats
+        if (stats == null) stats = GetComponent<AnimalStats>();
+        stats.currentHealth = stats.maxHealth;
+        stats.currentHunger = 50f;
+        stats.currentThirst = 50f;
+        stats.isDead = false; // "Оживляем" его
+
+        // 2. Teleport to a new random location
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
+
+        // (Мы "хардкодим" центр спавна '0,0,0' и радиус '20' -
+        // измените, если ваша карта в других координатах)
+        Vector3 randomPos = GetRandomPointOnNavMesh(Vector3.zero, 20f);
+
+        if (randomPos != Vector3.zero)
+        {
+            // Сбрасываем "путь" и "телепортируем"
+            agent.Warp(randomPos);
+        }
+
+        currentState = AnimalState.WANDERING; // Возвращаемся к "брожению"
+    }
 
     // --- Helper Functions ---
 

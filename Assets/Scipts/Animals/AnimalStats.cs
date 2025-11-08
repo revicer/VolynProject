@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events; // Used for events like OnDeath
 using Unity.MLAgents;
+using UnityEngine.AI;
 
 public class AnimalStats : MonoBehaviour
 {
@@ -11,11 +12,11 @@ public class AnimalStats : MonoBehaviour
     [Header("Needs")]
     public float maxHunger = 100f;
     public float currentHunger = 50f; // Start at 50
-    public float hungerRate = 0.5f; // Hunger points per second
+    public float hungerRate = 0.1f; // Hunger points per second
 
     public float maxThirst = 100f;
     public float currentThirst = 50f;
-    public float thirstRate = 0.8f; // Thirst increases faster than hunger
+    public float thirstRate = 0.2f; // Thirst increases faster than hunger
 
     [Header("Thresholds")]
     public float hungerThreshold = 60f; // When to start seeking food
@@ -26,11 +27,13 @@ public class AnimalStats : MonoBehaviour
     // An event that fires on death (useful for other scripts)
     public UnityEvent OnDeath;
     private Agent agent;
+    private Animator animator;
 
     void Start()
     {
         currentHealth = maxHealth;
         agent = GetComponent<Agent>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -82,12 +85,38 @@ public class AnimalStats : MonoBehaviour
     void Die()
     {
         isDead = true;
-        OnDeath.Invoke(); // Notify other scripts that this animal died
+        OnDeath.Invoke();
         Debug.Log(gameObject.name + " died.");
 
-        agent.SetReward(-5.0f); // Big penalty for death
-        agent.EndEpisode(); // End this "round" of learning
+        if (animator != null)
+        {
+            animator.SetTrigger("Died");
+        }
 
-        //Destroy(gameObject, 5f); // Remove the body after 5 seconds
+        // --- ВОТ ИСПРАВЛЕНИЕ ---
+
+        // Проверяем, является ли это животное ML-Агентом
+        if (agent != null)
+        {
+            // Это "Умный" Заяц (ML-Agent)
+            agent.SetReward(-2.0f); // Штраф за смерть
+            agent.EndEpisode();     // Это вызовет OnEpisodeBegin() для "перерождения"
+        }
+        else
+        {
+            // Это "Глупый" Волк (FSM)
+            // Он не агент, так что просто отключаем его "мозг" и движение.
+            // (Он просто останется "мертвым" на сцене)
+            if (GetComponent<WolfFSM>() != null)
+                GetComponent<WolfFSM>().enabled = false;
+
+            if (GetComponent<NavMeshAgent>() != null)
+                GetComponent<NavMeshAgent>().isStopped = true;
+
+            // (Позже мы можем добавить сюда логику "удаления" тела)
+            // Destroy(gameObject, 20f); 
+        }
+
+        // --- КОНЕЦ ИСПРАВЛЕНИЯ ---
     }
 }
